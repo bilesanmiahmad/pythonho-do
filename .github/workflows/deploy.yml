@@ -21,7 +21,7 @@ jobs:
       - name: Deploy to DigitalOcean
         env:
           DEPLOY_PATH: "/var/www/pythonho-do"  # Adjust this path
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_USER: "deploy"  # Make sure this matches your deploy user
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
         run: |
           rsync -avz --delete \
@@ -29,16 +29,18 @@ jobs:
             --exclude 'venv' \
             --exclude '__pycache__' \
             --exclude '*.pyc' \
+            --exclude 'staticfiles' \
             ./ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
 
       - name: Execute deployment commands
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
+          username: "deploy"  # Make sure this matches your deploy user
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/pythonho-do
+            python3 -m venv venv || true
             source venv/bin/activate
             pip install -r requirements.txt
             python manage.py migrate

@@ -20,7 +20,7 @@ jobs:
           
       - name: Deploy to DigitalOcean
         env:
-          DEPLOY_PATH: "/var/www/community-hub"  # Adjust this path
+          DEPLOY_PATH: "/var/www/pythonho-do"  # Adjust this path
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
         run: |

@@ -27,12 +27,14 @@ def create_blog(request):
             title = form.cleaned_data["title"]
             content = form.cleaned_data["content"]
             status = form.cleaned_data["status"]
+            company = form.cleaned_data["company"]
+            country = form.cleaned_data["country"]
 
-            print(title, content, status)
+            print(title, content, status, company, country)
 
             # newblog = {"title": title, "content": content, "status": status}
 
-            newpost = BlogPost(title=title, content=content, status=status, author=request.user)
+            newpost = BlogPost(title=title, content=content, status=status, author=request.user, company=company, country=country)
             newpost.save()  # this actually saves the new post to DB
 
             # redirect to blog list page
@@ -48,7 +50,7 @@ def update_blog(request, post_id):
     post = BlogPost.objects.get(id=post_id)
 
     if request.method == "POST":
-        form = BlogPostForm(request.POST, initial={"title": post.title, "content": post.content, "status": post.status})
+        form = BlogPostForm(request.POST, initial={"title": post.title, "content": post.content, "status": post.status, "company": post.company, "country": post.country})
         if form.has_changed():
             print("Form has changed")
             print(form.changed_data)
@@ -56,13 +58,15 @@ def update_blog(request, post_id):
                 post.title = form.cleaned_data["title"]
                 post.content = form.cleaned_data["content"]
                 post.status = form.cleaned_data["status"]
+                post.company = form.cleaned_data["company"]
+                post.country = form.cleaned_data["country"]
                 post.save()
 
                 return redirect("blog_list")
         else:
             print("Form has not changed")
     else:
-        form = BlogPostForm(initial={"title": post.title, "content": post.content, "status": post.status})
+        form = BlogPostForm(initial={"title": post.title, "content": post.content, "status": post.status, "company": post.company, "country": post.country})
 
     return render(request, "app/update_blog.html", {"form": form, "post": post})
 

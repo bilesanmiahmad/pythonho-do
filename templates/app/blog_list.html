@@ -15,6 +15,7 @@
                 <p class='text-gray-700'>{{ post.content|truncatewords:20 }}</p>
                 <p class="text-gray-500 font-thin text-sm">By: {{ post.author }}</p>
                 <p class="text-gray-500 font-thin text-sm">Company: {{ post.company }}</p>
+                <p class="text-gray-500 font-thin text-sm">Country: {{ post.country }}</p>
 
                 {% if user.is_authenticated and user == post.author %}
                     <div class='mt-4'>

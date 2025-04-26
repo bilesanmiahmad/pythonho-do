@@ -17,6 +17,7 @@ class BlogPost(models.Model):
         ("published", "Published"),
     ]
     company = models.CharField(max_length=255, null=True, blank=True)
+    country = models.CharField(max_length=255, null=True, blank=True)
     title = models.CharField(max_length=255)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

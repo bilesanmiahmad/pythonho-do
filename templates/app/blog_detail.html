@@ -7,7 +7,7 @@
         <h2 class="text-3xl font-bold mb-4">{{ post.title }}</h2>
         <p class="text-gray-800">{{ post.content }}</p>
         <p class="text-gray-500 font-thin text-sm">Company: {{ post.company }}</p>
-
+        <p class="text-gray-500 font-thin text-sm">Country: {{ post.country }}</p>
         <div class="mt-6">
             {% if user.is_authenticated and user == post.author %}
                 <a href="{% url 'update_blog' post_id=post.id %}" class="text-green-600 hover:underline">Edit</a>

@@ -38,6 +38,26 @@
             {% endfor %}
         {% endif %}
        </div>
+
+       <div>
+        <label for="{{ form.company.id_for_label }}" class="block font-semibold">Company</label>
+        {{ form.company }}
+        {% if form.company.errors %}
+            {% for error in form.company.errors %}
+                <span class="error-message">{{ error|escape }}</span>
+            {% endfor %}
+        {% endif %}
+       </div>       
+
+       <div>
+        <label for="{{ form.country.id_for_label }}" class="block font-semibold">Country</label>
+        {{ form.country }}
+        {% if form.country.errors %}
+            {% for error in form.country.errors %}
+                <span class="error-message">{{ error|escape }}</span>
+            {% endfor %}
+        {% endif %}
+       </div>
     
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
             Create blog Post

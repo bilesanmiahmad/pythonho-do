@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} | Community Hub{% endblock title %}
+
+{% block content %}
+    <div class="bg-white shadow-lg p-6 rounded-lg">
+        <h2 class="text-3xl font-bold mb-4">{{ post.title }}</h2>
+        <p class="text-gray-800">{{ post.content }}</p>
+
+        <div class="mt-6">
+            {% if user.is_authenticated and user == post.author %}
+                <a href="{% url 'update_blog' post_id=post.id %}" class="text-green-600 hover:underline">Edit</a>
+                <a href="{% url 'delete_blog' post_id=post.id %}" class="text-red-600 hover:underline">Delete</a>
+            {% endif %}
+            <a href="{% url "blog_list" %}" class="text-blue-600 hover:underline">Back to list</a>
+        </div>
+    </div>
+{% endblock content %}

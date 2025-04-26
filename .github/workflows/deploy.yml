@@ -1,0 +1,46 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches:
+      - main  # or your default branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+          
+      - name: Deploy to DigitalOcean
+        env:
+          DEPLOY_PATH: "/var/www/community-hub"  # Adjust this path
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          rsync -avz --delete \
+            --exclude '.git*' \
+            --exclude 'venv' \
+            --exclude '__pycache__' \
+            --exclude '*.pyc' \
+            ./ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+
+      - name: Execute deployment commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/community-hub
+            source venv/bin/activate
+            pip install -r requirements.txt
+            python manage.py migrate
+            python manage.py collectstatic --noinput
+            sudo systemctl restart gunicorn 

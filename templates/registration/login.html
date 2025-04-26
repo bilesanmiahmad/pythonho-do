@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Login | Community Hub{% endblock title %}
+
+{% block content %}
+    <div class="flex flex-col justify-center items-center p-4">
+        <h2 class="mb-2 font-bold">Log in to your account</h2>
+
+        {% if form.errors %}
+            <p>Username and Password do not match. <br>Please try again.</p>
+        {% endif %}
+
+        <form action="{% url 'login' %}" method="Post">
+            {% csrf_token %}
+
+            <div class="block">
+                <div>
+                    <label>{{ form.username.label_tag }}</label>
+                    <br>
+                    {{ form.username }}
+                </div>
+    
+                <div>
+                    <label>{{ form.password.label_tag }}</label>
+                    <br>
+                    {{ form.password }}
+                </div>
+            </div>
+
+            <button type="submit" class="block mt-4 p-2 border rounded-md bg-blue-500 hover:bg-blue-900 text-white">Login</button>
+            <input type='hidden' name='next' value='{{ next }}'>
+        </form>
+    </div>
+{% endblock content %}
+

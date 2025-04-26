@@ -1,0 +1,45 @@
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Community Hub{% endblock title %}</title>
+    {% tailwind_css %}
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <header class="bg-blue-600 text-white py-4">
+        <div class="container mx-auto flex justify-between px-4">
+            <h1 class="text-2xl font-bold"><a href="/">Community Hub</a></h1>
+        <nav>
+            {% if user.is_authenticated %}
+                <ul class="flex space-x-4 items-center">
+                    <li><a href="{% url 'blog_list' %}" class="hover:underline">Home</a></li>
+                    <li><a href="{% url 'create_blog' %}" class="hover:underline">Create Post</a></li>
+                    <a href="{% url 'dashboard' %}">
+                        <img src="https://placehold.co/400" alt="placeholder-user-image" class="w-10 rounded-full ">
+                    </a>
+                    {% comment %} <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form> {% endcomment %}
+                </ul>
+                {% else %}
+                <ul class="flex space-x-4">
+                    <li><a href="{% url 'login' %}" class="hover:underline">Login</a></li>
+                </ul>
+            {% endif %}
+        </nav>
+        </div>
+    </header>
+    
+    <main class="container mx-auto mt-8 px-4">
+        {% block content %}{% endblock content %}
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-10">
+        <p>&copy; 2025 Community Hub - Python User Group Ho project. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Create new Blog Post | Community Hub{% endblock title %}
+
+{% block content %}
+    <div class="bg-white shadow-lg p-6 rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Create new Blog Post</h2>
+
+    <form action="#" method="post" class="space-y-4">
+        {% csrf_token %}
+       
+       <div>
+        <label for="{{ form.title.id_for_label }}" class="block font-semibold">Title</label>
+        {{ form.title }}
+        {% if form.title.errors %}
+            {% for error in form.title.errors %}
+                <span class="error-message">{{ error|escape }}</span>
+            {% endfor %}
+        {% endif %}
+       </div>
+    
+       <div>
+        <label for="{{ form.content.id_for_label }}" class="block font-semibold">Body</label>
+        {{ form.content }}
+        {% if form.content.errors %}
+            {% for error in form.content.errors %}
+                <span class="error-message">{{ error|escape }}</span>
+            {% endfor %}
+        {% endif %}
+       </div>
+    
+       <div>
+        <label for="{{ form.status.id_for_label }}" class="block font-semibold">Status</label>
+        {{ form.status }}
+        {% if form.status.errors %}
+            {% for error in form.status.errors %}
+                <span class="error-message">{{ error|escape }}</span>
+            {% endfor %}
+        {% endif %}
+       </div>
+    
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Create blog Post
+        </button>
+    </form>
+    </div>
+{% endblock content %}
